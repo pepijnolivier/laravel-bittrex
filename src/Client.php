@@ -46,8 +46,59 @@ class Client implements ClientContract
 
     public function getMarkets()
     {
-        //https://bittrex.com/api/v1.1/public/getmarkets
         return $this->public('getmarkets');
+    }
+
+    public function getCurrencies()
+    {
+        return $this->public('getcurrencies');
+    }
+
+    /**
+     * @param string $market a string literal for the market (ex: BTC-LTC)
+     */
+    public function getTicker($market)
+    {
+        return $this->public('getticker', [
+            'market' => $market
+        ]);
+    }
+
+    public function getMarketSummaries() {
+        return $this->public('getmarketsummaries');
+    }
+
+    /**
+     * @param string $market a string literal for the market (ex: BTC-LTC)
+     */
+    public function getMarketSummary($market) {
+        return $this->public('getmarketsummary', [
+            'market' => $market,
+        ]);
+    }
+
+    /**
+     * @param string $market a string literal for the market (ex: BTC-LTC)
+     * @param string $type buy, sell or both to identify the type of orderbook to return
+     * @param int $depth defaults to 20 - how deep of an order book to retrieve. Max is 50
+     * @return mixed
+     */
+    public function getOrderBook($market, $type, $depth=20) {
+        return $this->public('getorderbook', [
+            'market' => $market,
+            'type' => $type,
+            'depth' => $depth,
+        ]);
+    }
+
+    /**
+     * @param string $market a string literal for the market (ex: BTC-LTC)
+     * @return mixed
+     */
+    public function getMarketHistory($market) {
+        return $this->public('getmarkethistory', [
+            'market' => $market,
+        ]);
     }
 
     /**
