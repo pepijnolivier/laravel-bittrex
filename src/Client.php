@@ -127,6 +127,68 @@ class Client implements ClientContract
     }
 
     /**
+     * Used to place a buy order in a specific market. Use buylimit to place limit orders.
+     * Make sure you have the proper permissions set on your API keys for this call to work
+     *
+     * @param string $market a string literal for the market (ex: BTC-LTC)
+     * @param string|float $quantity the amount to purchase
+     * @param string|float rate the rate at which to place the order.
+     *
+     * @return array Returns you the order uuid
+     */
+    public function buyLimit($market, $quantity, $rate) {
+        return $this->market('buylimit', [
+            'market' => $market,
+            'quantity' => $quantity,
+            'rate' => $rate,
+        ]);
+    }
+
+    /**
+     * Used to place an sell order in a specific market. Use selllimit to place limit orders.
+     * Make sure you have the proper permissions set on your API keys for this call to work
+     *
+     * @param string $market a string literal for the market (ex: BTC-LTC)
+     * @param string|float $quantity the amount to sell
+     * @param string|float rate the rate at which to place the order.
+     *
+     * @return array Returns you the order uuid
+     *
+     */
+    public function sellLimit($market, $quantity, $rate) {
+        return $this->market('selllimit', [
+            'market' => $market,
+            'quantity' => $quantity,
+            'rate' => $rate,
+        ]);
+    }
+
+    /**
+     * Used to cancel a buy or sell order.
+     *
+     * @param string $uuid uuid of buy or sell order
+     * @return array
+     */
+    public function cancelOrder($uuid) {
+        return $this->market('cancel', [
+            'uuid' => $uuid,
+        ]);
+    }
+
+    /**
+     * Get all orders that you currently have opened. A specific market can be requested
+     *
+     * @param string|null $market a string literal for the market (ie. BTC-LTC)
+     * @return array
+     */
+    public function getOpenOrders($market=null) {
+        return $this->market('getopenorders', [
+            'market' => $market,
+        ]);
+    }
+
+
+    /**
      * @inheritdoc
      */
     function public ($segment, array $parameters=[]) {
