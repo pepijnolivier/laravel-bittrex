@@ -146,43 +146,26 @@ class Client implements ClientContract
         return json_decode($feed, true);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function trading(array $parameters = [])
-    {
-        $mt                  = (string) microtime(true);
-        $parameters['nonce'] = intval(substr(str_replace('.', '', $mt), 0, 13));
+    public function market($segment, array $parameters=[]) {
+        $parameters = array_merge(array_filter($parameters), [
+            'apiKey' => $this->key,
+            'nonce' => time()
+        ]);
 
-        $post = http_build_query(array_filter($parameters), '', '&');
-        $sign = hash_hmac('sha512', $post, $this->secret);
-
-        $headers = [
-            'Key: ' . $this->key,
-            'Sign: ' . $sign,
-        ];
-
-        static $ch = null;
-
-        if (is_null($ch)) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_USERAGENT,
-                'Mozilla/4.0 (compatible; Bittrex PHP-Laravel Client; ' . php_uname('a') . '; PHP/' . phpversion() . ')'
-            );
-        }
-
-        curl_setopt($ch, CURLOPT_URL, $this->tradingUrl);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $uri = $this->marketUrl . $segment . '?' . http_build_query($parameters);
+        $sign = hash_hmac('sha512', $uri, $this->secret);
+        $ch = curl_init($uri);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "apisign:$sign",
+        ]);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT,
+            'Mozilla/4.0 (compatible; Bittrex PHP-Laravel Client; ' . php_uname('a') . '; PHP/' . phpversion() . ')'
+        );
 
-        $response = curl_exec($ch);
-
-        if ($response === false) {
-            throw new Exception('Curl error: ' . curl_error($ch));
-        }
-
-        return json_decode($response, true);
+        $execResult = curl_exec($ch);
+        $res = json_decode($execResult, true);
+        return $res;
     }
 }
