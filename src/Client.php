@@ -44,18 +44,31 @@ class Client implements ClientContract
         $this->secret = array_get($auth, 'secret');
     }
 
+    /**
+     * Used to get the open and available trading markets at Bittrex along with other meta data.
+     *
+     * @return array
+     */
     public function getMarkets()
     {
         return $this->public('getmarkets');
     }
 
+    /**
+     * Used to get all supported currencies at Bittrex along with other meta data.
+     *
+     * @return array
+     */
     public function getCurrencies()
     {
         return $this->public('getcurrencies');
     }
 
     /**
+     * Used to get the current tick values for a market.
+     *
      * @param string $market a string literal for the market (ex: BTC-LTC)
+     * @return array
      */
     public function getTicker($market)
     {
@@ -64,12 +77,20 @@ class Client implements ClientContract
         ]);
     }
 
+    /**
+     * Used to get the last 24 hour summary of all active exchanges
+     *
+     * @return array
+     */
     public function getMarketSummaries() {
         return $this->public('getmarketsummaries');
     }
 
     /**
+     * Used to get the last 24 hour summary of all active exchanges
+     *
      * @param string $market a string literal for the market (ex: BTC-LTC)
+     * @return array
      */
     public function getMarketSummary($market) {
         return $this->public('getmarketsummary', [
@@ -78,10 +99,12 @@ class Client implements ClientContract
     }
 
     /**
+     * Used to get retrieve the orderbook for a given market
+     *
      * @param string $market a string literal for the market (ex: BTC-LTC)
      * @param string $type buy, sell or both to identify the type of orderbook to return
      * @param int $depth defaults to 20 - how deep of an order book to retrieve. Max is 50
-     * @return mixed
+     * @return array
      */
     public function getOrderBook($market, $type, $depth=20) {
         return $this->public('getorderbook', [
@@ -92,8 +115,10 @@ class Client implements ClientContract
     }
 
     /**
+     * Used to retrieve the latest trades that have occured for a specific market.
+     *
      * @param string $market a string literal for the market (ex: BTC-LTC)
-     * @return mixed
+     * @return array
      */
     public function getMarketHistory($market) {
         return $this->public('getmarkethistory', [
