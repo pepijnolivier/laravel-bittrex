@@ -1,5 +1,4 @@
 <?php
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -25,13 +24,9 @@ return [
      */
 
     'urls' => [
-        'public'  => 'https://bittrex.com/api/' . config('bittrex.api.version') . '/public/',
-        'market'  => 'https://bittrex.com/api/' . config('bittrex.api.version') . '/market/',
-        'account' => 'https://bittrex.com/api/' . config('bittrex.api.version') . '/account/',
-    ],
-
-    'api'  => [
-        'version' => '1.1',
+        'public'  => 'https://bittrex.com/api/v1.1/public/',
+        'market'  => 'https://bittrex.com/api/v1.1/market/',
+        'account' => 'https://bittrex.com/api/v1.1account/',
     ],
 
 ];
