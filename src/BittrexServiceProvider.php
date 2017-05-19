@@ -3,7 +3,7 @@ namespace Pepijnolivier\Bittrex;
 
 use Illuminate\Support\ServiceProvider;
 
-class PoloniexServiceProvider extends ServiceProvider
+class BittrexServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -13,7 +13,7 @@ class PoloniexServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/poloniex.php' => config_path('bittrex.php'),
+            __DIR__ . '/../config/bittrex.php' => config_path('bittrex.php'),
         ], 'config');
     }
 
