@@ -1,8 +1,10 @@
+# Laravel-Bittrex
+
+Start trading on Bittrex right away using your favorite PHP framework.
+
 ### Installation
 
 `composer require pepijnolivier/laravel-bittrex:dev-master`.
-
-(no versions yet!)
 
 Add the service provider to your `config/app.php`:
  
@@ -24,7 +26,7 @@ BITTREX_SECRET={YOUR_API_SECRET}
 
 ```
 
-Optionally you can add alias to your `config/app.php`:
+Add the alias to your `config/app.php`:
 
 ```    
 'aliases' => [
@@ -34,9 +36,31 @@ Optionally you can add alias to your `config/app.php`:
 ],
 ```
 
+### Usage
+
+Please refer to the [Api Documentation](https://bittrex.com/home/api) for more info, or read the [docblocks](https://github.com/pepijnolivier/laravel-bittrex/blob/master/src/Client.php) !
+
+```
+use Pepijnolivier\Bittrex\Bittrex;
+
+Bittrex::getMarkets();
+Bittrex::getCurrencies();
+Bittrex::getTicker($market);
+Bittrex::getMarketSummaries();
+Bittrex::getMarketSummary($market);
+Bittrex::getOrderBook($market, $type, $depth=20);
+Bittrex::getMarketHistory($market);
+Bittrex::getOpenOrders($market=null);
+Bittrex::getBalances();
+Bittrex::getBalance($currency);
+Bittrex::getDepositAddress($currency);
+Bittrex::withdraw($currency, $quantity, $address, $paymentId=null);
+Bittrex::getOrder($uuid);
+Bittrex::getOrderHistory($market=null);
+Bittrex::getWithdrawalHistory($currency=null);
+Bittrex::getDepositHistory($currency=null);
+```
+
 
 Did I help you with this package ?
 BTC Tipjar: `1N5ET46r5Z4HdfhRjGMp7SpEMPes9S1H9n`
-
-
-(I'm taking feature requests)
