@@ -286,7 +286,11 @@ class Client implements ClientContract
 
 
     /**
-     * @inheritdoc
+     * Execute a public API request
+     *
+     * @param $segment
+     * @param array $parameters
+     * @return mixed
      */
     function public ($segment, array $parameters=[]) {
         $options = [
@@ -297,25 +301,46 @@ class Client implements ClientContract
         ];
 
         $url = $this->publicUrl . $segment . '?' . http_build_query(array_filter($parameters));
-
-        $feed = file_get_contents(
-            $url, false, stream_context_create($options)
-        );
-
+        $feed = file_get_contents($url, false, stream_context_create($options));
         return json_decode($feed, true);
     }
 
+
+    /**
+     * Execute a market API request
+     *
+     * @param $segment
+     * @param array $parameters
+     * @return mixed
+     */
     public function market($segment, array $parameters=[]) {
         $baseUrl = $this->marketUrl;
         return $this->nonPublicRequest($baseUrl, $segment, $parameters);
     }
 
+    /**
+     * Execute an account API request
+     *
+     * @param $segment
+     * @param array $parameters
+     * @return mixed
+     */
     public function account($segment, array $parameters=[]) {
         $baseUrl = $this->accountUrl;
         return $this->nonPublicRequest($baseUrl, $segment, $parameters);
     }
 
-    private function nonPublicRequest($baseUrl, $segment, $parameters=[]) {
+
+    /**
+     * Executes a non-public API request (market|account),
+     * using nonce, key & secret
+     *
+     * @param $baseUrl
+     * @param $segment
+     * @param array $parameters
+     * @return mixed
+     */
+    protected function nonPublicRequest($baseUrl, $segment, $parameters=[]) {
         $parameters = array_merge(array_filter($parameters), [
             'apiKey' => $this->key,
             'nonce' => time()
