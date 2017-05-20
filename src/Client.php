@@ -187,6 +187,103 @@ class Client implements ClientContract
         ]);
     }
 
+    /**
+     * Used to retrieve all balances from your account
+     *
+     * @return array
+     */
+    public function getBalances() {
+        return $this->account('getbalances');
+    }
+
+    /**
+     * Used to retrieve the balance from your account for a specific currency.
+     *
+     * @param string $currency a string literal for the currency (ex: LTC)
+     * @return array
+     */
+    public function getBalance($currency) {
+        return $this->account('getbalance', [
+            'currency' => $currency,
+        ]);
+    }
+
+    /**
+     * Used to retrieve or generate an address for a specific currency.
+     * If one does not exist, the call will fail and return ADDRESS_GENERATING until one is available.
+     *
+     * @param string $currency a string literal for the currency (ex: LTC)
+     * @return array
+     */
+    public function getDepositAddress($currency) {
+        return $this->account('getdepositaddress', [
+            'currency' => $currency,
+        ]);
+    }
+
+    /**
+     * Used to withdraw funds from your account.
+     * note: please account for txfee.
+     *
+     * @param string $currency a string literal for the currency (ex: LTC)
+     * @param string|float $quantity the quantity of coins to withdraw
+     * @param string $address the address where to send the funds.
+     * @param string $paymentId used for CryptoNotes/BitShareX/Nxt optional field (memo/paymentid)
+     * @return array Returns you the withdrawal uuid
+     */
+    public function withdraw($currency, $quantity, $address, $paymentId=null) {
+        return $this->account('withdraw', [
+            'currency' => $currency,
+            'quantity' => $quantity,
+            'address' => $address,
+            'paymentid' => $paymentId,
+        ]);
+    }
+
+    /**
+     * Used to retrieve a single order by uuid.
+     *
+     * @param string $uuid the uuid of the buy or sell order
+     */
+    public function getOrder($uuid) {
+        return $this->account('getorder', [
+            'uuid' => $uuid,
+        ]);
+    }
+
+    /**
+     * Used to retrieve your order history.
+     *
+     * @param string|null $market
+     */
+    public function getOrderHistory($market=null) {
+        return $this->account('getorderhistory', [
+            'market' => $market,
+        ]);
+    }
+
+    /**
+     * Used to retrieve your withdrawal history.
+     *
+     * @param string| null $currency a string literal for the currecy (ie. BTC). If omitted, will return for all currencies
+     */
+    public function getWithdrawalHistory($currency=null) {
+        return $this->account('getwithdrawalhistory', [
+            'currency' => $currency,
+        ]);
+    }
+
+    /**
+     * Used to retrieve your deposit history.
+     *
+     * @param string| null $currency a string literal for the currecy (ie. BTC). If omitted, will return for all currencies
+     */
+    public function getDepositHistory($currency=null) {
+        return $this->account('getdeposithistory', [
+            'currency' => $currency,
+        ]);
+    }
+
 
     /**
      * @inheritdoc
@@ -209,12 +306,22 @@ class Client implements ClientContract
     }
 
     public function market($segment, array $parameters=[]) {
+        $baseUrl = $this->marketUrl;
+        return $this->nonPublicRequest($baseUrl, $segment, $parameters);
+    }
+
+    public function account($segment, array $parameters=[]) {
+        $baseUrl = $this->accountUrl;
+        return $this->nonPublicRequest($baseUrl, $segment, $parameters);
+    }
+
+    private function nonPublicRequest($baseUrl, $segment, $parameters=[]) {
         $parameters = array_merge(array_filter($parameters), [
             'apiKey' => $this->key,
             'nonce' => time()
         ]);
 
-        $uri = $this->marketUrl . $segment . '?' . http_build_query($parameters);
+        $uri = $baseUrl . $segment . '?' . http_build_query($parameters);
         $sign = hash_hmac('sha512', $uri, $this->secret);
         $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
