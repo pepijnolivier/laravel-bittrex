@@ -4,7 +4,7 @@ Start trading on Bittrex right away using your favorite PHP framework.
 
 ### Installation
 
-`composer require pepijnolivier/laravel-bittrex:dev-master`.
+`composer require pepijnolivier/laravel-bittrex`.
 
 Add the service provider to your `config/app.php`:
  
