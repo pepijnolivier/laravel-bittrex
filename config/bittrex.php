@@ -26,7 +26,7 @@ return [
     'urls' => [
         'public'  => 'https://bittrex.com/api/v1.1/public/',
         'market'  => 'https://bittrex.com/api/v1.1/market/',
-        'account' => 'https://bittrex.com/api/v1.1account/',
+        'account' => 'https://bittrex.com/api/v1.1/account/',
     ],
 
 ];
