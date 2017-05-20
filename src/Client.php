@@ -34,8 +34,7 @@ class Client implements ClientContract
      * @param array $auth
      * @param array $urls
      */
-    public function __construct(array $auth, array $urls)
-    {
+    public function __construct(array $auth, array $urls) {
         $this->marketUrl  = array_get($urls, 'market');
         $this->publicUrl  = array_get($urls, 'public');
         $this->accountUrl = array_get($urls, 'account');
@@ -49,8 +48,7 @@ class Client implements ClientContract
      *
      * @return array
      */
-    public function getMarkets()
-    {
+    public function getMarkets() {
         return $this->public('getmarkets');
     }
 
@@ -59,8 +57,7 @@ class Client implements ClientContract
      *
      * @return array
      */
-    public function getCurrencies()
-    {
+    public function getCurrencies() {
         return $this->public('getcurrencies');
     }
 
@@ -70,8 +67,7 @@ class Client implements ClientContract
      * @param string $market a string literal for the market (ex: BTC-LTC)
      * @return array
      */
-    public function getTicker($market)
-    {
+    public function getTicker($market) {
         return $this->public('getticker', [
             'market' => $market
         ]);
