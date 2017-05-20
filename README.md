@@ -43,14 +43,22 @@ Please refer to the [Api Documentation](https://bittrex.com/home/api) for more i
 ```
 use Pepijnolivier\Bittrex\Bittrex;
 
+// public API methods
 Bittrex::getMarkets();
 Bittrex::getCurrencies();
-Bittrex::getTicker($market);
+Bittrex::getTicker($marker);
 Bittrex::getMarketSummaries();
 Bittrex::getMarketSummary($market);
 Bittrex::getOrderBook($market, $type, $depth=20);
 Bittrex::getMarketHistory($market);
+
+// market API methods
+Bittrex::buyLimit($market, $quantity, $rate);
+Bittrex::sellLimit($market, $quantity, $rate);
+Bittrex::cancelOrder($uuid);
 Bittrex::getOpenOrders($market=null);
+
+// account API methods
 Bittrex::getBalances();
 Bittrex::getBalance($currency);
 Bittrex::getDepositAddress($currency);
