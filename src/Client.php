@@ -240,6 +240,7 @@ class Client implements ClientContract
      * Used to retrieve a single order by uuid.
      *
      * @param string $uuid the uuid of the buy or sell order
+     * @return array
      */
     public function getOrder($uuid) {
         return $this->account('getorder', [
@@ -251,6 +252,7 @@ class Client implements ClientContract
      * Used to retrieve your order history.
      *
      * @param string|null $market
+     * @return array
      */
     public function getOrderHistory($market=null) {
         return $this->account('getorderhistory', [
@@ -262,6 +264,7 @@ class Client implements ClientContract
      * Used to retrieve your withdrawal history.
      *
      * @param string| null $currency a string literal for the currecy (ie. BTC). If omitted, will return for all currencies
+     * @return array
      */
     public function getWithdrawalHistory($currency=null) {
         return $this->account('getwithdrawalhistory', [
@@ -273,6 +276,7 @@ class Client implements ClientContract
      * Used to retrieve your deposit history.
      *
      * @param string| null $currency a string literal for the currecy (ie. BTC). If omitted, will return for all currencies
+     * @return array
      */
     public function getDepositHistory($currency=null) {
         return $this->account('getdeposithistory', [
@@ -286,7 +290,7 @@ class Client implements ClientContract
      *
      * @param $segment
      * @param array $parameters
-     * @return mixed
+     * @return array
      */
     function public ($segment, array $parameters=[]) {
         $options = [
@@ -307,7 +311,7 @@ class Client implements ClientContract
      *
      * @param $segment
      * @param array $parameters
-     * @return mixed
+     * @return array
      */
     public function market($segment, array $parameters=[]) {
         $baseUrl = $this->marketUrl;
@@ -319,7 +323,7 @@ class Client implements ClientContract
      *
      * @param $segment
      * @param array $parameters
-     * @return mixed
+     * @return array
      */
     public function account($segment, array $parameters=[]) {
         $baseUrl = $this->accountUrl;
@@ -334,7 +338,7 @@ class Client implements ClientContract
      * @param $baseUrl
      * @param $segment
      * @param array $parameters
-     * @return mixed
+     * @return array
      */
     protected function nonPublicRequest($baseUrl, $segment, $parameters=[]) {
         $parameters = array_merge(array_filter($parameters), [
