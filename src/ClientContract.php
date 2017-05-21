@@ -22,4 +22,7 @@ interface ClientContract
     public function getOrderHistory($market=null);
     public function getWithdrawalHistory($currency=null);
     public function getDepositHistory($currency=null);
+
+    public function getValidChartDataTickIntervals();
+    public function getChartData($marketName, $tickInterval='hour');
 }

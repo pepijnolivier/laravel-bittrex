@@ -16,6 +16,11 @@ class Client implements ClientContract
     /**
      * @var string
      */
+    public $publicUrlV2;
+
+    /**
+     * @var string
+     */
     public $accountUrl;
 
     /**
@@ -37,6 +42,7 @@ class Client implements ClientContract
     public function __construct(array $auth, array $urls) {
         $this->marketUrl  = array_get($urls, 'market');
         $this->publicUrl  = array_get($urls, 'public');
+        $this->publicUrlV2  = array_get($urls, 'public');
         $this->accountUrl = array_get($urls, 'account');
 
         $this->key    = array_get($auth, 'key');
@@ -120,6 +126,40 @@ class Client implements ClientContract
         return $this->public('getmarkethistory', [
             'market' => $market,
         ]);
+    }
+
+    public function getValidChartDataTickIntervals() {
+        $validTickIntervals = [
+            '60' => 'oneMin',
+            '300' => 'fiveMin',
+            // fifteenMin
+            '1800' => 'thirtyMin',
+            '3600' => 'hour',
+            '86400' => 'day',
+            // threeDays
+            // week
+            // month
+        ];
+
+        return $validTickIntervals;
+    }
+
+
+    /**
+     * This is an undocumented public API, that will return the chart data.
+     * Valid tick intervals are: ['oneMin','fiveMin','thirtyMin','hour','day']
+     *
+     * @param string $market a string literal for the market (ex: BTC-LTC)
+     * @param string $tickInterval
+     * @return mixed
+     */
+    public function getChartData($marketName, $tickInterval='hour') {
+        $timestamp = strtotime('now');
+        return $this->public('market/GetTicks', [
+            'marketName' => $marketName,
+            'tickInterval' => $tickInterval,
+            '_' => $timestamp,
+        ], 'v2.0');
     }
 
     /**
@@ -292,7 +332,7 @@ class Client implements ClientContract
      * @param array $parameters
      * @return array
      */
-    function public ($segment, array $parameters=[]) {
+    function public ($segment, array $parameters=[], $version=null) {
         $options = [
             'http' => [
                 'method'  => 'GET',
@@ -300,11 +340,11 @@ class Client implements ClientContract
             ],
         ];
 
-        $url = $this->publicUrl . $segment . '?' . http_build_query(array_filter($parameters));
+        $publicUrl = $this->getPublicUrl($version);
+        $url = $publicUrl . $segment . '?' . http_build_query(array_filter($parameters));
         $feed = file_get_contents($url, false, stream_context_create($options));
         return json_decode($feed, true);
     }
-
 
     /**
      * Execute a market API request
@@ -361,5 +401,17 @@ class Client implements ClientContract
         $execResult = curl_exec($ch);
         $res = json_decode($execResult, true);
         return $res;
+    }
+
+    private function getPublicUrl($version)
+    {
+        switch($version) {
+            case 'v1.1':
+                return $this->publicUrl;
+            case 'v2.0':
+                return $this->publicUrlV2;
+            default:
+                throw new \Exception("Invalid Bittrex API version: $version");
+        }
     }
 }
