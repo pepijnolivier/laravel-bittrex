@@ -71,4 +71,4 @@ Bittrex::getDepositHistory($currency=null);
 
 
 Did I help you with this package ?
-BTC Tipjar: `1N5ET46r5Z4HdfhRjGMp7SpEMPes9S1H9n`
+Tips are appreciated ! `12piRKyGS7KuXZ8jj8sCRe8xTPN4pZVMWj`
