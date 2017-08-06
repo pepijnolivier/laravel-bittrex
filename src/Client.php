@@ -42,7 +42,7 @@ class Client implements ClientContract
     public function __construct(array $auth, array $urls) {
         $this->marketUrl  = array_get($urls, 'market');
         $this->publicUrl  = array_get($urls, 'public');
-        $this->publicUrlV2  = array_get($urls, 'public');
+        $this->publicUrlV2  = array_get($urls, 'publicv2');
         $this->accountUrl = array_get($urls, 'account');
 
         $this->key    = array_get($auth, 'key');
@@ -86,6 +86,17 @@ class Client implements ClientContract
      */
     public function getMarketSummaries() {
         return $this->public('getmarketsummaries');
+    }
+
+    /**
+     * https://bittrex.com/api/v2.0/pub/Markets/GetMarketSummaries
+     *
+     * @return array
+     */
+    public function getMarketSummariesV2() {
+        return $this->public('Markets/GetMarketSummaries', [
+            // no extra data
+        ], 'v2.0');
     }
 
     /**
@@ -332,7 +343,7 @@ class Client implements ClientContract
      * @param array $parameters
      * @return array
      */
-    function public ($segment, array $parameters=[], $version=null) {
+    function public ($segment, array $parameters=[], $version='v1.1') {
         $options = [
             'http' => [
                 'method'  => 'GET',
