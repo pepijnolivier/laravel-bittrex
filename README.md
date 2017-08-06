@@ -70,5 +70,5 @@ Bittrex::getDepositHistory($currency=null);
 ```
 
 
-Did I help you with this package ?
-Tips are appreciated ! `12piRKyGS7KuXZ8jj8sCRe8xTPN4pZVMWj`
+Tips are appreciated 
+`1N5ET46r5Z4HdfhRjGMp7SpEMPes9S1H9n`
