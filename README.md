@@ -10,9 +10,7 @@ Add the service provider to your `config/app.php`:
  
  ``` 
  'providers' => [
- 
-     Pepijnolivier\Bittrex\BittrexServiceProvider::class,
-     
+    Pepijnolivier\Bittrex\BittrexServiceProvider::class,
  ],
  ```
  
@@ -30,9 +28,7 @@ Add the alias to your `config/app.php`:
 
 ```    
 'aliases' => [
-           
     'Bittrex' => Pepijnolivier\Bittrex\Bittrex::class,
-           
 ],
 ```
 
@@ -52,6 +48,10 @@ Bittrex::getMarketSummary($market);
 Bittrex::getOrderBook($market, $type, $depth=20);
 Bittrex::getMarketHistory($market);
 
+// Public API 2.0 methods
+Bittrex::getValidChartDataTickIntervals();
+Bittrex::getChartData($market, $tickInterval='hour');
+
 // market API methods
 Bittrex::buyLimit($market, $quantity, $rate);
 Bittrex::sellLimit($market, $quantity, $rate);
@@ -70,5 +70,11 @@ Bittrex::getDepositHistory($currency=null);
 ```
 
 
-Tips are appreciated 
-`1N5ET46r5Z4HdfhRjGMp7SpEMPes9S1H9n`
+This package is provided as-is. Do with it what you want ! PR's will be looked into.
+I personally believe in freedom and equality, which is one of the reasons I'm in crypto.
+It's also the reason I'm sharing most of the reusable code I write.
+
+If you're feeling generous, you can always leave a tip. Any satoshi will do.
+May the chain be with you. And may you be with the chain.
+
+BTC: `1N5ET46r5Z4HdfhRjGMp7SpEMPes9S1H9n`
