@@ -3,6 +3,8 @@ namespace Pepijnolivier\Bittrex;
 
 interface ClientContract
 {
+    public function getReturnType();
+    public function setReturnType($returnType);
     public function getMarkets();
     public function getCurrencies();
     public function getTicker($marker);
