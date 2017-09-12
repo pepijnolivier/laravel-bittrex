@@ -3,6 +3,8 @@ namespace Pepijnolivier\Bittrex;
 
 interface ClientContract
 {
+    public function getReturnType();
+    public function setReturnType($returnType);
     public function getMarkets();
     public function getCurrencies();
     public function getTicker($marker);
@@ -22,4 +24,7 @@ interface ClientContract
     public function getOrderHistory($market=null);
     public function getWithdrawalHistory($currency=null);
     public function getDepositHistory($currency=null);
+
+    public function getValidChartDataTickIntervals();
+    public function getChartData($marketName, $tickInterval='hour');
 }
