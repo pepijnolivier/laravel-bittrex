@@ -425,4 +425,13 @@ class Client implements ClientContract
                 throw new \Exception("Invalid Bittrex API version: $version");
         }
     }
+    
+    public function setAuthKey($key)
+    {
+        $this->key = $key;
+    }    
+    public function setAuthSecret($key){
+        $this->secret = $key;
+    }
+    
 }
