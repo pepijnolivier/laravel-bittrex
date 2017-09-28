@@ -1,5 +1,5 @@
 <?php
-namespace Pepijnolivier\Bittrex;
+namespace Angelkurten\Bittrex;
 
 use Illuminate\Support\ServiceProvider;
 
