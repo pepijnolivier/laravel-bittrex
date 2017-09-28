@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-4": {
-      "AngelKurten\\Bittrex\\": "src/"
+      "Angelkurten\\Bittrex\\": "src/"
     }
   },
   "minimum-stability": "dev"
