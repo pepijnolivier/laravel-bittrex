@@ -3,6 +3,8 @@ namespace Pepijnolivier\Bittrex;
 
 class Client implements ClientContract
 {
+    private $returnType = 'array';
+
     /**
      * @var string
      */
@@ -50,9 +52,25 @@ class Client implements ClientContract
     }
 
     /**
+     * @return string
+     */
+    public function getReturnType()
+    {
+        return $this->returnType;
+    }
+
+    /**
+     * @param $returnType
+     */
+    public function setReturnType($returnType)
+    {
+        $this->returnType = $returnType;
+    }
+
+    /**
      * Used to get the open and available trading markets at Bittrex along with other meta data.
      *
-     * @return array
+     * @return array|\stdClass
      */
     public function getMarkets() {
         return $this->public('getmarkets');
@@ -61,7 +79,7 @@ class Client implements ClientContract
     /**
      * Used to get all supported currencies at Bittrex along with other meta data.
      *
-     * @return array
+     * @return array|\stdClass
      */
     public function getCurrencies() {
         return $this->public('getcurrencies');
@@ -71,7 +89,7 @@ class Client implements ClientContract
      * Used to get the current tick values for a market.
      *
      * @param string $market a string literal for the market (ex: BTC-LTC)
-     * @return array
+     * @return array|\stdClass
      */
     public function getTicker($market) {
         return $this->public('getticker', [
@@ -82,7 +100,7 @@ class Client implements ClientContract
     /**
      * Used to get the last 24 hour summary of all active exchanges
      *
-     * @return array
+     * @return array|\stdClass
      */
     public function getMarketSummaries() {
         return $this->public('getmarketsummaries');
@@ -91,7 +109,7 @@ class Client implements ClientContract
     /**
      * https://bittrex.com/api/v2.0/pub/Markets/GetMarketSummaries
      *
-     * @return array
+     * @return array|\stdClass
      */
     public function getMarketSummariesV2() {
         return $this->public('Markets/GetMarketSummaries', [
@@ -103,7 +121,7 @@ class Client implements ClientContract
      * Used to get the last 24 hour summary of all active exchanges
      *
      * @param string $market a string literal for the market (ex: BTC-LTC)
-     * @return array
+     * @return array|\stdClass
      */
     public function getMarketSummary($market) {
         return $this->public('getmarketsummary', [
@@ -117,7 +135,7 @@ class Client implements ClientContract
      * @param string $market a string literal for the market (ex: BTC-LTC)
      * @param string $type buy, sell or both to identify the type of orderbook to return
      * @param int $depth defaults to 20 - how deep of an order book to retrieve. Max is 50
-     * @return array
+     * @return array|\stdClass
      */
     public function getOrderBook($market, $type, $depth=20) {
         return $this->public('getorderbook', [
@@ -131,7 +149,7 @@ class Client implements ClientContract
      * Used to retrieve the latest trades that have occured for a specific market.
      *
      * @param string $market a string literal for the market (ex: BTC-LTC)
-     * @return array
+     * @return array|\stdClass
      */
     public function getMarketHistory($market) {
         return $this->public('getmarkethistory', [
@@ -181,7 +199,7 @@ class Client implements ClientContract
      * @param string|float $quantity the amount to purchase
      * @param string|float rate the rate at which to place the order.
      *
-     * @return array Returns you the order uuid
+     * @return array|\stdClass Returns you the order uuid
      */
     public function buyLimit($market, $quantity, $rate) {
         return $this->market('buylimit', [
@@ -199,7 +217,7 @@ class Client implements ClientContract
      * @param string|float $quantity the amount to sell
      * @param string|float rate the rate at which to place the order.
      *
-     * @return array Returns you the order uuid
+     * @return array|\stdClass Returns you the order uuid
      *
      */
     public function sellLimit($market, $quantity, $rate) {
@@ -214,7 +232,7 @@ class Client implements ClientContract
      * Used to cancel a buy or sell order.
      *
      * @param string $uuid uuid of buy or sell order
-     * @return array
+     * @return array|\stdClass
      */
     public function cancelOrder($uuid) {
         return $this->market('cancel', [
@@ -226,7 +244,7 @@ class Client implements ClientContract
      * Get all orders that you currently have opened. A specific market can be requested
      *
      * @param string|null $market a string literal for the market (ie. BTC-LTC)
-     * @return array
+     * @return array|\stdClass
      */
     public function getOpenOrders($market=null) {
         return $this->market('getopenorders', [
@@ -237,7 +255,7 @@ class Client implements ClientContract
     /**
      * Used to retrieve all balances from your account
      *
-     * @return array
+     * @return array|\stdClass
      */
     public function getBalances() {
         return $this->account('getbalances');
@@ -247,7 +265,7 @@ class Client implements ClientContract
      * Used to retrieve the balance from your account for a specific currency.
      *
      * @param string $currency a string literal for the currency (ex: LTC)
-     * @return array
+     * @return array|\stdClass
      */
     public function getBalance($currency) {
         return $this->account('getbalance', [
@@ -260,7 +278,7 @@ class Client implements ClientContract
      * If one does not exist, the call will fail and return ADDRESS_GENERATING until one is available.
      *
      * @param string $currency a string literal for the currency (ex: LTC)
-     * @return array
+     * @return array|\stdClass
      */
     public function getDepositAddress($currency) {
         return $this->account('getdepositaddress', [
@@ -276,7 +294,7 @@ class Client implements ClientContract
      * @param string|float $quantity the quantity of coins to withdraw
      * @param string $address the address where to send the funds.
      * @param string $paymentId used for CryptoNotes/BitShareX/Nxt optional field (memo/paymentid)
-     * @return array Returns you the withdrawal uuid
+     * @return array|\stdClass Returns you the withdrawal uuid
      */
     public function withdraw($currency, $quantity, $address, $paymentId=null) {
         return $this->account('withdraw', [
@@ -291,7 +309,7 @@ class Client implements ClientContract
      * Used to retrieve a single order by uuid.
      *
      * @param string $uuid the uuid of the buy or sell order
-     * @return array
+     * @return array|\stdClass
      */
     public function getOrder($uuid) {
         return $this->account('getorder', [
@@ -303,7 +321,7 @@ class Client implements ClientContract
      * Used to retrieve your order history.
      *
      * @param string|null $market
-     * @return array
+     * @return array|\stdClass
      */
     public function getOrderHistory($market=null) {
         return $this->account('getorderhistory', [
@@ -315,7 +333,7 @@ class Client implements ClientContract
      * Used to retrieve your withdrawal history.
      *
      * @param string| null $currency a string literal for the currecy (ie. BTC). If omitted, will return for all currencies
-     * @return array
+     * @return array|\stdClass
      */
     public function getWithdrawalHistory($currency=null) {
         return $this->account('getwithdrawalhistory', [
@@ -327,7 +345,7 @@ class Client implements ClientContract
      * Used to retrieve your deposit history.
      *
      * @param string| null $currency a string literal for the currecy (ie. BTC). If omitted, will return for all currencies
-     * @return array
+     * @return array|\stdClass
      */
     public function getDepositHistory($currency=null) {
         return $this->account('getdeposithistory', [
@@ -341,7 +359,7 @@ class Client implements ClientContract
      *
      * @param $segment
      * @param array $parameters
-     * @return array
+     * @return array|\stdClass
      */
     function public ($segment, array $parameters=[], $version='v1.1') {
         $options = [
@@ -354,7 +372,11 @@ class Client implements ClientContract
         $publicUrl = $this->getPublicUrl($version);
         $url = $publicUrl . $segment . '?' . http_build_query(array_filter($parameters));
         $feed = file_get_contents($url, false, stream_context_create($options));
-        return json_decode($feed, true);
+        if ($this->returnType == 'object') {
+            return json_decode($feed);
+        } else {
+            return json_decode($feed, true);
+        }
     }
 
     /**
@@ -362,7 +384,7 @@ class Client implements ClientContract
      *
      * @param $segment
      * @param array $parameters
-     * @return array
+     * @return array|\stdClass
      */
     public function market($segment, array $parameters=[]) {
         $baseUrl = $this->marketUrl;
@@ -374,7 +396,7 @@ class Client implements ClientContract
      *
      * @param $segment
      * @param array $parameters
-     * @return array
+     * @return array|\stdClass
      */
     public function account($segment, array $parameters=[]) {
         $baseUrl = $this->accountUrl;
@@ -389,7 +411,7 @@ class Client implements ClientContract
      * @param $baseUrl
      * @param $segment
      * @param array $parameters
-     * @return array
+     * @return array|\stdClass
      */
     protected function nonPublicRequest($baseUrl, $segment, $parameters=[]) {
         $parameters = array_merge(array_filter($parameters), [
@@ -410,7 +432,11 @@ class Client implements ClientContract
         );
 
         $execResult = curl_exec($ch);
-        $res = json_decode($execResult, true);
+        if ($this->returnType == 'object') {
+            $res = json_decode($execResult);
+        } else {
+            $res = json_decode($execResult, true);
+        }
         return $res;
     }
 
