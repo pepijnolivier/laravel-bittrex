@@ -4,13 +4,13 @@ Start trading on Bittrex right away using your favorite PHP framework.
 
 ### Installation
 
-`composer require pepijnolivier/laravel-bittrex`.
+`composer require angelkurten/laravel-bittrex`.
 
 Add the service provider to your `config/app.php`:
  
  ``` 
  'providers' => [
-    Pepijnolivier\Bittrex\BittrexServiceProvider::class,
+    AngelKurten\Bittrex\BittrexServiceProvider::class,
  ],
  ```
  
@@ -28,13 +28,13 @@ Add the alias to your `config/app.php`:
 
 ```    
 'aliases' => [
-    'Bittrex' => Pepijnolivier\Bittrex\Bittrex::class,
+    'Bittrex' => Angelkurten\Bittrex\Bittrex::class,
 ],
 ```
 
 ### Usage
 
-Please refer to the [Api Documentation](https://bittrex.com/home/api) for more info, or read the [docblocks](https://github.com/pepijnolivier/laravel-bittrex/blob/master/src/Client.php) !
+Please refer to the [Api Documentation](https://bittrex.com/home/api) for more info, or read the [docblocks](https://github.com/angelkurten/laravel-bittrex/blob/master/src/Client.php) !
 
 ```
 use Pepijnolivier\Bittrex\Bittrex;
@@ -76,5 +76,3 @@ It's also the reason I'm sharing most of the reusable code I write.
 
 If you're feeling generous, you can always leave a tip. Any satoshi will do.
 May the chain be with you. And may you be with the chain.
-
-BTC: `1N5ET46r5Z4HdfhRjGMp7SpEMPes9S1H9n`

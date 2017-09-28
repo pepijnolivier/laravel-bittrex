@@ -1,13 +1,13 @@
 {
-  "name": "pepijnolivier/laravel-bittrex",
+  "name": "angelkurten/laravel-bittrex",
   "description": "Bittrex API wrapper for Laravel",
   "tags": ["bittrex", "api", "laravel"],
   "type": "library",
   "license": "MIT",
   "authors": [
     {
-      "name": "Pepijn Olivier",
-      "email": "olivier.pepijn@gmail.com"
+      "name": "angelkurten",
+      "email": "angelkurten@hotmail.com"
     }
   ],
   "require": {
@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Pepijnolivier\\Bittrex\\": "src/"
+      "Angelkurten\\Bittrex\\": "src/"
     }
   },
   "minimum-stability": "dev"

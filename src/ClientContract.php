@@ -1,5 +1,5 @@
 <?php
-namespace Pepijnolivier\Bittrex;
+namespace Angelkurten\Bittrex;
 
 interface ClientContract
 {
@@ -27,4 +27,7 @@ interface ClientContract
 
     public function getValidChartDataTickIntervals();
     public function getChartData($marketName, $tickInterval='hour');
+    
+    public function setAuthKey($key);
+    public function setAuthSecret($key);
 }
