@@ -24,6 +24,8 @@ class BittrexServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/bittrex.php', 'bittrex');
+
         $this->app->singleton('bittrex', function () {
             return new BittrexManager;
         });
